@@ -1,6 +1,6 @@
 import random
 import faker
-from faker import Faker
+from faker import Fake
 
 # Inicializa Faker
 fake = Faker()
