@@ -7,10 +7,10 @@ fake = Faker()
 
 # Abre un archivo para escribir los datos SQL INSERT
 with open('proveedores.sql', 'w') as file:
-    num_registros_presentacion = 20
+    num_registros_presentacion = 3
 
     # Define la cantidad de registros a generar para la tabla "producto_tipos"
-    num_registros_tipos = 10
+    num_registros_tipos = 3
 
     # Define la cantidad de registros a generar para la tabla "producto_origen"
     num_registros_origen = 2
@@ -19,25 +19,29 @@ with open('proveedores.sql', 'w') as file:
     num_registros_productos = 50  # Puedes ajustar este número según tu necesidad
 
      # Genera datos para la tabla "producto_presentacion"
-    for _ in range(num_registros_presentacion):
-        preprod_name = fake.unique.word()
-        insert_sql = f"INSERT INTO producto_presentacion (PREPROD_NAME) VALUES ('{preprod_name}');"
+    for i in range(1,num_registros_presentacion):
+        preprod_id = i
+        preprod_name = fake.unique.random_element(elements=('Botella vidrio', 'Lata', 'Botella plastico'))
+        insert_sql = f"INSERT INTO producto_presentacion (PREPROD_ID, PREPROD_NAME) VALUES ({preprod_id},'{preprod_name}');"
         file.write(insert_sql + '\n')
 
     # Genera datos para la tabla "producto_tipos"
-    for _ in range(num_registros_tipos):
-        tprod_name = fake.unique.word()
-        insert_sql = f"INSERT INTO producto_tipos (TPROD_NAME) VALUES ('{tprod_name}');"
+    for i in range(1,num_registros_tipos):
+        tprod_id = i
+        tprod_name = fake.unique.random_element(elements=('Gaseosas', 'Cervezas', 'Agua'))
+        insert_sql = f"INSERT INTO producto_tipos (TPROD_ID,TPROD_NAME) VALUES ({tprod_id},'{tprod_name}');"
         file.write(insert_sql + '\n')
 
     # Genera datos para la tabla "producto_origen"
-    for _ in range(num_registros_origen):
+    for i in range(1,num_registros_origen):
+        oprod_id = i
         oprod_name = fake.unique.random_element(elements=('nacional', 'importada'))
-        insert_sql = f"INSERT INTO producto_origen (OPROD_NAME) VALUES ('{oprod_name}');"
+        insert_sql = f"INSERT INTO producto_origen (OPROD_NAME) VALUES ({oprod_id},'{oprod_name}');"
         file.write(insert_sql + '\n')
 
     # Genera datos para la tabla "productos"
-    for _ in range(num_registros_productos):
+    for i in range(1,num_registros_productos):
+        prod_id = i
         tprod_id = random.randint(1, num_registros_tipos)
         oprod_id = random.randint(1, num_registros_origen)
         preprod_id = random.randint(1, num_registros_presentacion)
@@ -47,5 +51,5 @@ with open('proveedores.sql', 'w') as file:
         prod_pmino = round(prod_pcosto * 1.35, 2)
         prod_cant = random.randint(0, 200)
 
-        insert_sql = f"INSERT INTO productos (TPROD_ID, OPROD_ID, PREPROD_ID, PROD_DESC, PROD_PCOSTO, PROD_PMAYO, PROD_PMINO, PROD_CANT) VALUES ({tprod_id}, {oprod_id}, {preprod_id}, '{prod_desc}', {prod_pcosto}, {prod_pmayo}, {prod_pmino}, {prod_cant});"
+        insert_sql = f"INSERT INTO productos (PROD_ID,TPROD_ID, OPROD_ID, PREPROD_ID, PROD_DESC, PROD_PCOSTO, PROD_PMAYO, PROD_PMINO, PROD_CANT) VALUES ({prod_id},{tprod_id}, {oprod_id}, {preprod_id}, '{prod_desc}', {prod_pcosto}, {prod_pmayo}, {prod_pmino}, {prod_cant});"
         file.write(insert_sql + '\n')

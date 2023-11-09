@@ -11,9 +11,9 @@ with open('vendedores.sql', 'w') as file:
     # Define la cantidad de registros a generar
     num_registros = 100
 
-    for _ in range(num_registros):
+    for i in range(1,num_registros):
         # Genera datos aleatorios
-        vend_id = random.randint(1, 100)
+        vend_id = i
         vend_apellido = fake.last_name()
         vend_nombre = fake.first_name()
         ruc_numero = fake.random_int(min=1000000, max=9999999)
